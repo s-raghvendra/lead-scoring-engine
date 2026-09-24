@@ -1,0 +1,73 @@
+spring:
+  application:
+    name: nector-backend-service
+
+  # ── MySQL (Master / Lead data) ────────────────────────────────────────────
+  datasource:
+    mysql:
+      url: jdbc:mysql://localhost:3306/lead_scoring_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      username: app_user
+      password: app_password
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      hikari:
+        pool-name: HikariMysql
+        maximum-pool-size: 10
+        minimum-idle: 2
+        connection-timeout: 30000
+        idle-timeout: 600000
+        max-lifetime: 1800000
+
+  # ── PostgreSQL (Audit data) ───────────────────────────────────────────────
+    postgres:
+      url: jdbc:postgresql://localhost:5432/audit_db
+      username: audit_user
+      password: audit_password
+      driver-class-name: org.postgresql.Driver
+      hikari:
+        pool-name: HikariPostgres
+        maximum-pool-size: 5
+        minimum-idle: 1
+        connection-timeout: 30000
+        idle-timeout: 600000
+        max-lifetime: 1800000
+
+  # ── Flyway (MySQL only — applied at startup) ──────────────────────────────
+  flyway:
+    enabled: false   # managed manually via MysqlDataSourceConfig
+
+  # ── JPA defaults (each DataSource overrides relevant settings) ───────────
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+
+# ── AI Service (Python FastAPI) ───────────────────────────────────────────
+ai:
+  service:
+    base-url: http://localhost:8000
+    timeout-seconds: 15
+
+# ── Actuator ──────────────────────────────────────────────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# ── Logging ───────────────────────────────────────────────────────────────
+logging:
+  level:
+    com.nector: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.flywaydb: INFO
+
+server:
+  port: 8080

@@ -1,0 +1,35 @@
+# Environment files — never commit secrets
+.env
+*.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Java & Gradle Build Artifacts
+.gradle/
+*.class
+*.jar
+*.war
+!gradle/wrapper/gradle-wrapper.jar
+backend-service/bin/
+backend-service/build/
